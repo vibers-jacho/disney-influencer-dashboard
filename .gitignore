@@ -1,0 +1,41 @@
+# Mac OS
+.DS_Store
+~$*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Local server
+*.pid
+
+# Node (if you add npm packages later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Excel temporary files
+~$*.xlsx
+~$*.xls
+
+# Keep data files but can exclude if sensitive
+# *.xlsx
+# data.json
