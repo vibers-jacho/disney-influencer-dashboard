@@ -434,6 +434,29 @@ main {
     text-decoration: none;
 }
 
+.btn-external {
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-decoration: none;
+    background: #f3f4f6;
+    color: #1a1a1a;
+    border: 1px solid #e5e7eb;
+    min-width: 40px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-external:hover {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+    transform: translateY(-1px);
+}
+
 .btn-link {
     background: white;
     color: #10b981;
@@ -777,6 +800,70 @@ main {
     background: #333;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+    background: white;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+}
+
+.btn-secondary:hover {
+    background: #f3f4f6;
+    color: #333;
+}
+
+/* Video Modal */
+.video-modal .modal-content {
+    max-width: 700px;
+    padding: 0;
+}
+
+.video-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.video-container {
+    padding: 20px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+}
+
+.video-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #1a1a1a;
+    cursor: pointer;
+    z-index: 10;
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.video-close:hover {
+    background: #f3f4f6;
+    transform: scale(1.1);
+}
+
+/* TikTok Embed Styling */
+.tiktok-embed {
+    border: none !important;
+    margin: 0 auto !important;
 }
 
 /* Responsive Design */

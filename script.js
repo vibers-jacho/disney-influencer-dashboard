@@ -94,6 +94,22 @@ function setupEventListeners() {
   document.getElementById('detailModal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) closeModal();
   });
+  
+  // Video modal close
+  const videoClose = document.querySelector('.video-close');
+  if (videoClose) {
+    videoClose.addEventListener('click', closeVideoModal);
+  }
+  
+  // Close video modal on background click
+  const videoModal = document.getElementById('videoModal');
+  if (videoModal) {
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        closeVideoModal();
+      }
+    });
+  }
 }
 
 // Search functionality
@@ -276,7 +292,8 @@ function renderCards(data) {
                 <div class="card-actions">
                     ${
                       item.video_url
-                        ? `<a href="${item.video_url}" target="_blank" class="btn-link">동영상 보기</a>`
+                        ? `<button onclick="showVideo('${item.video_url}', event)" class="btn-link">동영상 보기</button>
+                           <a href="${item.video_url}" target="_blank" class="btn-external">↗</a>`
                         : ''
                     }
                     <button class="btn-detail" onclick="showDetailById(${
@@ -321,12 +338,13 @@ function renderTable(data) {
             <td>
                 ${
                   item.video_url
-                    ? `<a href="${item.video_url}" target="_blank" class="link-icon">🔗</a>`
+                    ? `<button class="btn-detail-small" onclick="showVideo('${item.video_url}', event)" title="동영상 보기">🎬</button>
+                       <a href="${item.video_url}" target="_blank" class="link-icon" title="TikTok에서 열기">↗</a>`
                     : ''
                 }
                 <button class="btn-detail-small" onclick="showDetailById(${
                   item.id
-                })">📋</button>
+                })" title="상세 정보">📋</button>
             </td>
         `;
     tbody.appendChild(row);
@@ -551,7 +569,8 @@ function showDetailById(id) {
             ${
               item.video_url
                 ? `<div class="modal-actions">
-                    <a href="${item.video_url}" target="_blank" class="btn-primary">TikTok에서 보기</a>
+                    <button onclick="showVideo('${item.video_url}', event)" class="btn-primary">동영상 보기</button>
+                    <a href="${item.video_url}" target="_blank" class="btn-primary btn-secondary">TikTok에서 열기</a>
                 </div>`
                 : ''
             }
@@ -633,4 +652,60 @@ function copyEmail(email, event) {
 
       document.body.removeChild(textArea);
     });
+}
+
+// Show TikTok video in modal
+function showVideo(videoUrl, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    // Extract video ID from URL
+    const videoIdMatch = videoUrl.match(/video\/(\d+)/);
+    if (!videoIdMatch) {
+        alert('Invalid TikTok video URL');
+        return;
+    }
+    
+    const videoId = videoIdMatch[1];
+    
+    // Extract username from URL
+    const usernameMatch = videoUrl.match(/@([^\/]+)/);
+    const username = usernameMatch ? usernameMatch[1] : 'user';
+    
+    // Create TikTok embed
+    const embedHtml = `
+        <blockquote class="tiktok-embed" 
+            cite="${videoUrl}"
+            data-video-id="${videoId}"
+            style="max-width: 605px; min-width: 325px; margin: 0 auto;">
+            <section>
+                <a target="_blank" title="@${username}" href="https://www.tiktok.com/@${username}">@${username}</a>
+            </section>
+        </blockquote>
+    `;
+    
+    // Insert embed into modal
+    document.getElementById('videoModalBody').innerHTML = embedHtml;
+    
+    // Show modal
+    document.getElementById('videoModal').style.display = 'block';
+    
+    // Reload TikTok embed script to render the new video
+    if (window.tiktok && window.tiktok.embed) {
+        window.tiktok.embed.reload();
+    } else {
+        // Fallback: reload the script
+        const script = document.createElement('script');
+        script.src = 'https://www.tiktok.com/embed.js';
+        script.async = true;
+        document.body.appendChild(script);
+    }
+}
+
+// Close video modal
+function closeVideoModal() {
+    document.getElementById('videoModal').style.display = 'none';
+    document.getElementById('videoModalBody').innerHTML = '';
 }
