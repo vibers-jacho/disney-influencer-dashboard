@@ -6,6 +6,7 @@ let itemsPerPage = 20;
 let sortField = '';
 let sortOrder = 'desc';
 let currentView = 'card';
+let currentTierFilter = '';
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
@@ -72,6 +73,12 @@ function setupEventListeners() {
   document
     .getElementById('sortOrderBtn')
     .addEventListener('click', toggleSortOrder);
+  
+  // Tier filter
+  document.getElementById('tierFilter').addEventListener('change', (e) => {
+    currentTierFilter = e.target.value;
+    applyFilters();
+  });
 
   // Table header sorting
   document.querySelectorAll('th.sortable').forEach((th) => {
@@ -112,17 +119,19 @@ function setupEventListeners() {
   }
 }
 
-// Search functionality
-function performSearch() {
+// Apply all filters (search and tier)
+function applyFilters() {
   const searchTerm = document
     .getElementById('searchInput')
     .value.toLowerCase()
     .trim();
-
-  if (!searchTerm) {
-    filteredData = [...allData];
-  } else {
-    filteredData = allData.filter((item) => {
+  
+  // Start with all data
+  let filtered = [...allData];
+  
+  // Apply search filter
+  if (searchTerm) {
+    filtered = filtered.filter((item) => {
       return (
         (item.author_name &&
           item.author_name.toLowerCase().includes(searchTerm)) ||
@@ -133,14 +142,29 @@ function performSearch() {
       );
     });
   }
-
+  
+  // Apply tier filter
+  if (currentTierFilter) {
+    filtered = filtered.filter((item) => {
+      return item.follower_tier === currentTierFilter;
+    });
+  }
+  
+  filteredData = filtered;
   currentPage = 1;
   updateView();
+}
+
+// Search functionality
+function performSearch() {
+  applyFilters();
 }
 
 // Clear search
 function clearSearch() {
   document.getElementById('searchInput').value = '';
+  document.getElementById('tierFilter').value = '';
+  currentTierFilter = '';
   filteredData = [...allData];
   currentPage = 1;
   updateView();

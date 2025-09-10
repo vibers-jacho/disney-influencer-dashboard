@@ -176,10 +176,26 @@ button:disabled {
     border-color: #1a1a1a;
 }
 
-.sort-section {
+.sort-section, .filter-section {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+#tierFilter {
+    padding: 10px 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: all 0.2s;
+    min-width: 180px;
+}
+
+#tierFilter:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    background: white;
 }
 
 #sortSelect {
