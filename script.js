@@ -495,7 +495,7 @@ function showDetailById(id) {
                 </div>
                 <div class="detail-stat">
                     <span>조회수 비율:</span>
-                    <strong>${item.view_ratio || 'N/A'}</strong>
+                    <strong>${item.view_ratio ? item.view_ratio.toFixed(2) + '%' : 'N/A'}</strong>
                 </div>
                 <div class="detail-stat">
                     <span>댓글 전환율:</span>
