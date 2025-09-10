@@ -4,7 +4,6 @@
   "description": "Interactive visualization dashboard for influencer data",
   "scripts": {
     "start": "python3 -m http.server 8000",
-    "build": "python3 convert_data.py",
     "dev": "python3 convert_data.py && python3 -m http.server 8000"
   },
   "keywords": [
