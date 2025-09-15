@@ -260,8 +260,8 @@ function renderCards(data) {
     card.innerHTML = `
             <div class="card-image">
                 ${
-                  item.thumbnail_url
-                    ? `<img src="${item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjsiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">`
+                  (item.local_thumbnail || item.thumbnail_url)
+                    ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjsiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">`
                     : `<div class="no-image">No Image</div>`
                 }
             </div>
@@ -341,8 +341,8 @@ function renderTable(data) {
             <td>${item.id || '-'}</td>
             <td class="thumbnail-cell">
                 ${
-                  item.thumbnail_url
-                    ? `<img src="${item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD9IjI1IiB5PSIyNSIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXNpemU6OHB4O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Ij5OQTwvdGV4dD48L3N2Zz4='">`
+                  (item.local_thumbnail || item.thumbnail_url)
+                    ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD9IjI1IiB5PSIyNSIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXNpemU6OHB4O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Ij5OQTwvdGV4dD48L3N2Zz4='">`
                     : '<span class="no-thumb">N/A</span>'
                 }
             </td>
@@ -474,8 +474,8 @@ function showDetailById(id) {
         
         <div class="modal-image">
             ${
-              item.thumbnail_url
-                ? `<img src="${item.thumbnail_url}" alt="${item.author_name}">`
+              (item.local_thumbnail || item.thumbnail_url)
+                ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}">`
                 : '<div class="no-image-large">No Image Available</div>'
             }
         </div>
