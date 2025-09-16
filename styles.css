@@ -86,6 +86,48 @@ header h1 {
     color: #1a1a1a;
 }
 
+/* Influencer Type Tabs */
+.influencer-tabs {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.tab-btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.tab-btn.active {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+}
+
+.tab-btn.active:hover {
+    background: #2a2a2a;
+    border-color: #2a2a2a;
+}
+
 /* Controls */
 .controls {
     background: white;
@@ -921,6 +963,17 @@ main {
     
     .search-section {
         min-width: 100%;
+    }
+    
+    .influencer-tabs {
+        padding: 12px;
+        gap: 5px;
+    }
+    
+    .tab-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+        min-width: 100px;
     }
     
     .cards-grid {

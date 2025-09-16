@@ -7,6 +7,8 @@ let sortField = '';
 let sortOrder = 'desc';
 let currentView = 'card';
 let currentTierFilter = '';
+let currentTypeFilter = 'all';
+let summaryData = {};
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
@@ -19,14 +21,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadData() {
   try {
     showLoading(true);
-    const response = await fetch('data.json');
+    const response = await fetch('data_combined.json');
     const jsonData = await response.json();
 
     allData = jsonData.data;
     filteredData = [...allData];
+    
+    // Store summary data for different tabs
+    summaryData = jsonData.summary;
 
-    // Update summary
-    updateSummary(jsonData.summary);
+    // Update summary with 'all' data by default
+    updateSummary(summaryData.all || jsonData.summary);
 
     showLoading(false);
   } catch (error) {
@@ -54,6 +59,13 @@ function updateSummary(summary) {
 
 // Setup event listeners
 function setupEventListeners() {
+  // Influencer type tabs
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      switchInfluencerType(e.target.dataset.type);
+    });
+  });
+  
   // Search
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keypress', (e) => {
@@ -119,7 +131,7 @@ function setupEventListeners() {
   }
 }
 
-// Apply all filters (search and tier)
+// Apply all filters (search, tier, and type)
 function applyFilters() {
   const searchTerm = document
     .getElementById('searchInput')
@@ -128,6 +140,13 @@ function applyFilters() {
   
   // Start with all data
   let filtered = [...allData];
+  
+  // Apply type filter first
+  if (currentTypeFilter !== 'all') {
+    filtered = filtered.filter((item) => {
+      return item.influencer_type === currentTypeFilter;
+    });
+  }
   
   // Apply search filter
   if (searchTerm) {
@@ -165,9 +184,7 @@ function clearSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('tierFilter').value = '';
   currentTierFilter = '';
-  filteredData = [...allData];
-  currentPage = 1;
-  updateView();
+  applyFilters();  // Apply filters instead of resetting to all data
 }
 
 // Sort functionality
@@ -732,4 +749,24 @@ function showVideo(videoUrl, event) {
 function closeVideoModal() {
     document.getElementById('videoModal').style.display = 'none';
     document.getElementById('videoModalBody').innerHTML = '';
+}
+
+// Switch influencer type tab
+function switchInfluencerType(type) {
+  currentTypeFilter = type;
+  
+  // Update tab buttons
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.type === type);
+  });
+  
+  // Update summary based on selected type
+  if (summaryData && summaryData[type]) {
+    updateSummary(summaryData[type]);
+  } else if (summaryData && summaryData.all) {
+    updateSummary(summaryData.all);
+  }
+  
+  // Apply filters with new type
+  applyFilters();
 }
