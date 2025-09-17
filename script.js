@@ -27,7 +27,7 @@ async function loadData() {
 
     allData = jsonData.data;
     filteredData = [...allData];
-    
+
     // Store summary data for different tabs
     summaryData = jsonData.summary;
 
@@ -66,7 +66,7 @@ function setupEventListeners() {
       switchInfluencerType(e.target.dataset.type);
     });
   });
-  
+
   // Search
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keypress', (e) => {
@@ -86,7 +86,7 @@ function setupEventListeners() {
   document
     .getElementById('sortOrderBtn')
     .addEventListener('click', toggleSortOrder);
-  
+
   // Tier filter
   document.getElementById('tierFilter').addEventListener('change', (e) => {
     currentTierFilter = e.target.value;
@@ -114,13 +114,13 @@ function setupEventListeners() {
   document.getElementById('detailModal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) closeModal();
   });
-  
+
   // Video modal close
   const videoClose = document.querySelector('.video-close');
   if (videoClose) {
     videoClose.addEventListener('click', closeVideoModal);
   }
-  
+
   // Close video modal on background click
   const videoModal = document.getElementById('videoModal');
   if (videoModal) {
@@ -138,17 +138,17 @@ function applyFilters() {
     .getElementById('searchInput')
     .value.toLowerCase()
     .trim();
-  
+
   // Start with all data
   let filtered = [...allData];
-  
+
   // Apply type filter first
   if (currentTypeFilter !== 'all') {
     filtered = filtered.filter((item) => {
       return item.influencer_type === currentTypeFilter;
     });
   }
-  
+
   // Apply search filter
   if (searchTerm) {
     filtered = filtered.filter((item) => {
@@ -162,14 +162,14 @@ function applyFilters() {
       );
     });
   }
-  
+
   // Apply tier filter
   if (currentTierFilter) {
     filtered = filtered.filter((item) => {
       return item.follower_tier === currentTierFilter;
     });
   }
-  
+
   filteredData = filtered;
   currentPage = 1;
   updateView();
@@ -185,7 +185,7 @@ function clearSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('tierFilter').value = '';
   currentTierFilter = '';
-  applyFilters();  // Apply filters instead of resetting to all data
+  applyFilters(); // Apply filters instead of resetting to all data
 }
 
 // Sort functionality
@@ -278,8 +278,12 @@ function renderCards(data) {
     card.innerHTML = `
             <div class="card-image">
                 ${
-                  (item.local_thumbnail || item.thumbnail_url)
-                    ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjsiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">`
+                  item.local_thumbnail || item.thumbnail_url
+                    ? `<img src="${
+                        item.local_thumbnail || item.thumbnail_url
+                      }" alt="${
+                        item.author_name
+                      }" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjsiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">`
                     : `<div class="no-image">No Image</div>`
                 }
             </div>
@@ -359,8 +363,12 @@ function renderTable(data) {
             <td>${item.id || '-'}</td>
             <td class="thumbnail-cell">
                 ${
-                  (item.local_thumbnail || item.thumbnail_url)
-                    ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD9IjI1IiB5PSIyNSIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXNpemU6OHB4O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Ij5OQTwvdGV4dD48L3N2Zz4='">`
+                  item.local_thumbnail || item.thumbnail_url
+                    ? `<img src="${
+                        item.local_thumbnail || item.thumbnail_url
+                      }" alt="${
+                        item.author_name
+                      }" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD9IjI1IiB5PSIyNSIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXNpemU6OHB4O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Ij5OQTwvdGV4dD48L3N2Zz4='">`
                     : '<span class="no-thumb">N/A</span>'
                 }
             </td>
@@ -381,7 +389,7 @@ function renderTable(data) {
                 ${
                   item.video_url
                     ? `<button class="btn-detail-small" onclick="showVideo('${item.video_url}', event)" title="동영상 보기">🎬</button>
-                       <a href="${item.video_url}" target="_blank" class="link-icon" title="TikTok에서 열기">↗</a>`
+                       <a href="${item.video_url}" target="_blank" class="link-icon" title="Instagram에서 열기">↗</a>`
                     : ''
                 }
                 <button class="btn-detail-small" onclick="showDetailById(${
@@ -492,8 +500,10 @@ function showDetailById(id) {
         
         <div class="modal-image">
             ${
-              (item.local_thumbnail || item.thumbnail_url)
-                ? `<img src="${item.local_thumbnail || item.thumbnail_url}" alt="${item.author_name}">`
+              item.local_thumbnail || item.thumbnail_url
+                ? `<img src="${
+                    item.local_thumbnail || item.thumbnail_url
+                  }" alt="${item.author_name}">`
                 : '<div class="no-image-large">No Image Available</div>'
             }
         </div>
@@ -533,7 +543,9 @@ function showDetailById(id) {
                 </div>
                 <div class="detail-stat">
                     <span>조회수 비율:</span>
-                    <strong>${item.view_ratio ? item.view_ratio.toFixed(2) + '%' : 'N/A'}</strong>
+                    <strong>${
+                      item.view_ratio ? item.view_ratio.toFixed(2) + '%' : 'N/A'
+                    }</strong>
                 </div>
                 <div class="detail-stat">
                     <span>댓글 전환율:</span>
@@ -598,7 +610,7 @@ function showDetailById(id) {
               item.video_url
                 ? `<div class="modal-actions">
                     <button onclick="showVideo('${item.video_url}', event)" class="btn-primary">동영상 보기</button>
-                    <a href="${item.video_url}" target="_blank" class="btn-primary btn-secondary">TikTok에서 열기</a>
+                    <a href="${item.video_url}" target="_blank" class="btn-primary btn-secondary">Instagram에서 열기</a>
                 </div>`
                 : ''
             }
@@ -684,13 +696,13 @@ function copyEmail(email, event) {
 
 // Show Instagram video in modal
 function showVideo(videoUrl, event) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
-    // Create Instagram embed
-    const embedHtml = `
+  // Create Instagram embed
+  const embedHtml = `
         <blockquote class="instagram-media"
             data-instgrm-captioned
             data-instgrm-permalink="${videoUrl}"
@@ -700,31 +712,30 @@ function showVideo(videoUrl, event) {
         </blockquote>
     `;
 
-    // Insert embed into modal
-    document.getElementById('videoModalBody').innerHTML = embedHtml;
+  // Insert embed into modal
+  document.getElementById('videoModalBody').innerHTML = embedHtml;
 
-    // Show modal
-    document.getElementById('videoModal').style.display = 'block';
+  // Show modal
+  document.getElementById('videoModal').style.display = 'block';
 
-    // Load Instagram embed script
-    if (window.instgrm) {
+  // Load Instagram embed script
+  if (window.instgrm) {
+    window.instgrm.Embeds.process();
+  } else {
+    const script = document.createElement('script');
+    script.src = 'https://www.instagram.com/embed.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.instgrm) {
         window.instgrm.Embeds.process();
-    } else {
-        const script = document.createElement('script');
-        script.src = 'https://www.instagram.com/embed.js';
-        script.async = true;
-        script.onload = () => {
-            if (window.instgrm) {
-                window.instgrm.Embeds.process();
-            }
-        };
-        document.body.appendChild(script);
-    }
+      }
+    };
+    document.body.appendChild(script);
+  }
 }
 
 // Close video modal
 function closeVideoModal() {
-    document.getElementById('videoModal').style.display = 'none';
-    document.getElementById('videoModalBody').innerHTML = '';
+  document.getElementById('videoModal').style.display = 'none';
+  document.getElementById('videoModalBody').innerHTML = '';
 }
-
