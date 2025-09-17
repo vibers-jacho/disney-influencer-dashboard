@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadData() {
   try {
     showLoading(true);
-    const response = await fetch('data_combined.json');
+    // Add cache-busting parameter to ensure fresh data
+    const response = await fetch('data_combined.json?v=' + Date.now());
     const jsonData = await response.json();
 
     allData = jsonData.data;
@@ -523,10 +524,6 @@ function showDetailById(id) {
                     <strong>${item.comments_count_formatted || '0'}</strong>
                 </div>
                 <div class="detail-stat">
-                    <span>공유:</span>
-                    <strong>${item.shares_count_formatted || '0'}</strong>
-                </div>
-                <div class="detail-stat">
                     <span>참여율:</span>
                     <strong>${
                       item.engagement_rate
@@ -579,16 +576,6 @@ function showDetailById(id) {
                     <strong>${
                       item.video_duration ? item.video_duration + '초' : 'N/A'
                     }</strong>
-                </div>
-                <div class="detail-stat">
-                    <span>음악:</span>
-                    <strong>${item.music_title || 'N/A'} ${
-    item.music_artist ? '- ' + item.music_artist : ''
-  }</strong>
-                </div>
-                <div class="detail-stat">
-                    <span>업로드 시간:</span>
-                    <strong>${item.upload_time || 'N/A'}</strong>
                 </div>
                 <div class="detail-stat">
                     <span>팔로워 Tier:</span>
@@ -695,52 +682,42 @@ function copyEmail(email, event) {
     });
 }
 
-// Show TikTok video in modal
+// Show Instagram video in modal
 function showVideo(videoUrl, event) {
     if (event) {
         event.preventDefault();
         event.stopPropagation();
     }
-    
-    // Extract video ID from URL
-    const videoIdMatch = videoUrl.match(/video\/(\d+)/);
-    if (!videoIdMatch) {
-        alert('Invalid TikTok video URL');
-        return;
-    }
-    
-    const videoId = videoIdMatch[1];
-    
-    // Extract username from URL
-    const usernameMatch = videoUrl.match(/@([^\/]+)/);
-    const username = usernameMatch ? usernameMatch[1] : 'user';
-    
-    // Create TikTok embed
+
+    // Create Instagram embed
     const embedHtml = `
-        <blockquote class="tiktok-embed" 
-            cite="${videoUrl}"
-            data-video-id="${videoId}"
-            style="max-width: 605px; min-width: 325px; margin: 0 auto;">
-            <section>
-                <a target="_blank" title="@${username}" href="https://www.tiktok.com/@${username}">@${username}</a>
-            </section>
+        <blockquote class="instagram-media"
+            data-instgrm-captioned
+            data-instgrm-permalink="${videoUrl}"
+            data-instgrm-version="14"
+            style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+            <a href="${videoUrl}" target="_blank"></a>
         </blockquote>
     `;
-    
+
     // Insert embed into modal
     document.getElementById('videoModalBody').innerHTML = embedHtml;
-    
+
     // Show modal
     document.getElementById('videoModal').style.display = 'block';
-    
-    // Reload TikTok embed script to render the new video
-    if (window.tiktok && window.tiktok.embed) {
-        window.tiktok.embed.reload();
+
+    // Load Instagram embed script
+    if (window.instgrm) {
+        window.instgrm.Embeds.process();
     } else {
-        // Fallback: reload the script
         const script = document.createElement('script');
-        script.src = 'https://www.tiktok.com/embed.js';
+        script.src = 'https://www.instagram.com/embed.js';
         script.async = true;
+        script.onload = () => {
+            if (window.instgrm) {
+                window.instgrm.Embeds.process();
+            }
+        };
         document.body.appendChild(script);
     }
 }
@@ -751,22 +728,3 @@ function closeVideoModal() {
     document.getElementById('videoModalBody').innerHTML = '';
 }
 
-// Switch influencer type tab
-function switchInfluencerType(type) {
-  currentTypeFilter = type;
-  
-  // Update tab buttons
-  document.querySelectorAll('.tab-btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.type === type);
-  });
-  
-  // Update summary based on selected type
-  if (summaryData && summaryData[type]) {
-    updateSummary(summaryData[type]);
-  } else if (summaryData && summaryData.all) {
-    updateSummary(summaryData.all);
-  }
-  
-  // Apply filters with new type
-  applyFilters();
-}

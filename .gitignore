@@ -39,3 +39,4 @@ yarn-error.log*
 # Keep data files but can exclude if sensitive
 # *.xlsx
 # data.json
+.vercel
